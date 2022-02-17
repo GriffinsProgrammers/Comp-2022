@@ -100,7 +100,8 @@ public class RobotContainer {
   public final Command lowerCatapultCommand = new LowerCatapultCommand(CATAPULT);
   public final Command retractShooterCommand = new RetractShooterPistons(CATAPULT);
   public final Command alignCatapultCommand = new AutoAlign(SWERVEROTATERS, SWERVESPINNERS, PIXY);
-  public final Command autoFindBall = new AutoFindBall(VISION, SWERVEROTATERS, SWERVESPINNERS, GYRO);
+  public final Command autoFindBall =
+      new AutoFindBall(VISION, SWERVEROTATERS, SWERVESPINNERS, GYRO);
 
   // Climber Commands
   public final Command climbSequence = new ClimbSequence(CLIMBER, SWERVEROTATERS, SWERVESPINNERS);

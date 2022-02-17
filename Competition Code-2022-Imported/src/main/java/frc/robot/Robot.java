@@ -70,16 +70,12 @@ public class Robot extends TimedRobot {
   public void autonomousInit() {
     m_autonomousCommand =
         /*new AutoSequence(
-            rCon.getRotaters(),
-            rCon.getSpinners(),
-            rCon.getGyro(),
-            rCon.getCatapult(),
-            rCon.getIntake());*/
-         new AutoFindBall(
-           rCon.getVision(),
-           rCon.getRotaters(),
-           rCon.getSpinners(),
-           rCon.getGyro());
+        rCon.getRotaters(),
+        rCon.getSpinners(),
+        rCon.getGyro(),
+        rCon.getCatapult(),
+        rCon.getIntake());*/
+        new AutoFindBall(rCon.getVision(), rCon.getRotaters(), rCon.getSpinners(), rCon.getGyro());
     // schedule the autonomous command (example)
     if (m_autonomousCommand != null) {
       m_autonomousCommand.schedule();
