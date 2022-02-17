@@ -96,7 +96,6 @@ public class RobotContainer {
   public final Command lowerCatapultCommand = new LowerCatapultCommand(CATAPULT);
   public final Command retractShooterCommand = new RetractShooterPistons(CATAPULT);
   public final Command alignCatapultCommand = new AutoAlign(SWERVEROTATERS, SWERVESPINNERS, PIXY);
-
   // Climber Commands
   public final Command climbSequence = new ClimbSequence(CLIMBER, SWERVEROTATERS, SWERVESPINNERS);
 */
@@ -148,7 +147,6 @@ public class RobotContainer {
     // Intake
     intakeButton.whileHeld(intakeCommand);
     raiseIntakeButton.whenPressed(raiseIntakeCommand);
-
     // Climber
     climbButton.whenHeld(climbSequence);
 */
