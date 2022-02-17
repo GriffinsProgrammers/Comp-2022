@@ -20,7 +20,7 @@ public class RaiseIntakeCommand extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    // INTAKE.pistonReverse();
+    INTAKE.pistonReverse();
   }
 
   // Called every time the scheduler runs while the command is scheduled.

@@ -71,7 +71,7 @@ public class RobotContainer {
   // == BUTTONS == //
 
   // Intake
-  public final JoystickButton intakeButton = new JoystickButton(shopper, INTAKE_BUTTON);
+  public final JoystickButton intakeButton = new JoystickButton(operator, INTAKE_BUTTON);
   public final JoystickButton raiseIntakeButton = new JoystickButton(operator, RAISE_INTAKE_BUTTON);
 
   // Catapult

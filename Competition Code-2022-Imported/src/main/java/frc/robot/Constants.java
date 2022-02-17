@@ -23,10 +23,8 @@ public final class Constants {
 
   // Intake Ports
   public static final int INTAKE_MOTOR_PORT = 10;
-  public static final int INTAKE_PISTON_PORT_1 = 10; // CHECK
-  public static final int INTAKE_PISTON_PORT_2 = 11;
-  public static final int INTAKE_PISTON_PORT_3 = 10;
-  public static final int INTAKE_PISTON_PORT_4 = 11;
+  public static final int INTAKE_PISTON_PORT_1 = 2; 
+  public static final int INTAKE_PISTON_PORT_2 = 3;
 
   // Climber Ports
   public static final int TELESCOPE_PORT_1 = 12;
@@ -36,10 +34,8 @@ public final class Constants {
 
   // Catapult Ports
   public static final int SHOOTER_MOTOR_PORT_1 = 11;
-  public static final int SHOOTER_PISTON_PORT_1 = 5;
-  public static final int SHOOTER_PISTON_PORT_2 = 6;
-  public static final int SHOOTER_PISTON_PORT_3 = 3; // CCONFIRM LATER UNTESTED
-  public static final int SHOOTER_PISTON_PORT_4 = 2;
+  public static final int SHOOTER_PISTON_PORT_1 = 0;
+  public static final int SHOOTER_PISTON_PORT_2 = 1;
 
   // Gyro Port
   public static final int GYRO_PORT = 9;
