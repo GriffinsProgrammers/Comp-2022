@@ -38,8 +38,8 @@ public final class Constants {
   public static final int SHOOTER_MOTOR_PORT_1 = 7;
   public static final int SHOOTER_PISTON_PORT_1 = 5;
   public static final int SHOOTER_PISTON_PORT_2 = 6;
-  public static final int SHOOTER_PISTON_PORT_3 = 3; // CCONFIRM LATER UNTESTED
-  public static final int SHOOTER_PISTON_PORT_4 = 2;
+  public static final int SHOOTER_PISTON_PORT_3 = 3; // CONFIRM LATER UNTESTED
+  public static final int SHOOTER_PISTON_PORT_4 = 2; // Need to remogve
 
   // Gyro Port
   public static final int GYRO_PORT = 9;
