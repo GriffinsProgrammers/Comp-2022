@@ -22,20 +22,20 @@ public final class Constants {
   public static final int ROTATOR_PORT_4 = 8;
 
   // Intake Ports
-  public static final int INTAKE_MOTOR_PORT = 7;
+  public static final int INTAKE_MOTOR_PORT = 10;
   public static final int INTAKE_PISTON_PORT_1 = 10; // CHECK
   public static final int INTAKE_PISTON_PORT_2 = 11;
   public static final int INTAKE_PISTON_PORT_3 = 10;
   public static final int INTAKE_PISTON_PORT_4 = 11;
 
   // Climber Ports
-  public static final int TELESCOPE_PORT_1 = 1;
-  public static final int TELESCOPE_PORT_2 = 1;
+  public static final int TELESCOPE_PORT_1 = 12;
+  public static final int TELESCOPE_PORT_2 = 13;
   public static final int SECONDARY_PORT_1 = 1;
   public static final int SECONDARY_PORT_2 = 1;
 
   // Catapult Ports
-  public static final int SHOOTER_MOTOR_PORT_1 = 7;
+  public static final int SHOOTER_MOTOR_PORT_1 = 11;
   public static final int SHOOTER_PISTON_PORT_1 = 5;
   public static final int SHOOTER_PISTON_PORT_2 = 6;
   public static final int SHOOTER_PISTON_PORT_3 = 3; // CCONFIRM LATER UNTESTED
