@@ -30,6 +30,7 @@ public class SwerveSpinners extends SubsystemBase {
   private WPI_TalonFX bRMotor, bLMotor, fRMotor, fLMotor;
   // private SpeedControllerGroup bR, bL, fR, fL;
   private MotorControllerGroup bR, bL, fR, fL;
+  private static double aFR, bFR, aBL, bBL, aBR, bBR, aFL, bFL;
 
   // This is the constructor for this subsytem.
 
@@ -143,10 +144,19 @@ public class SwerveSpinners extends SubsystemBase {
       frontLeftSpeed = -rotationHorizontal * ROTATION_COEFFICIENT;
 
     } else if (isRotating && isTranslating) {
-      frontRightSpeed = r;
-      backLeftSpeed = r;
-      backRightSpeed = r;
-      frontLeftSpeed = r;
+      aFR = rotationHorizontal/Math.sqrt(2.0) + horizontal;
+      bFR = -(rotationHorizontal/Math.sqrt(2.0)) - vertical;
+      aBL = rotationHorizontal/Math.sqrt(2.0) + horizontal;
+      bBL = rotationHorizontal/Math.sqrt(2.0) - vertical;
+      aBR = rotationHorizontal/Math.sqrt(2.0) + horizontal;
+      bBR = rotationHorizontal/Math.sqrt(2.0) - vertical;
+      aFL = -(rotationHorizontal/Math.sqrt(2.0)) + horizontal;
+      bFL = -(rotationHorizontal/Math.sqrt(2.0)) - vertical;
+
+      frontRightSpeed = (Math.sqrt(Math.pow(aFR,2) +  Math.pow(bFR,2))) / (Math.sqrt(2) + 1); // FR y component input rotation is negative
+      backLeftSpeed = (Math.sqrt(Math.pow(aBL, 2) + Math.pow(bBL,2))) / (Math.sqrt(2) + 1); // BL x component input rotation is negative
+      backRightSpeed = (Math.sqrt(Math.pow(aBR, 2) +  Math.pow(bBR,2))) / (Math.sqrt(2) + 1); // BR two negatives for rot input
+      frontLeftSpeed = (Math.sqrt(Math.pow(aFL, 2) + Math.pow(bFL,2))) / (Math.sqrt(2) + 1); // FL no negatives for either component
     }
 
     fR.set(frontRightSpeed);
@@ -154,6 +164,15 @@ public class SwerveSpinners extends SubsystemBase {
     bR.set(backRightSpeed);
     bL.set(backLeftSpeed);
   }
+  
+  public static double getAFR() {return aFR;}
+  public static double getBFR() {return bFR;}
+  public static double getABL() {return aBL;}
+  public static double getBBL() {return bBL;}
+  public static double getABR() {return aBR;}
+  public static double getBBR() {return bBR;}
+  public static double getAFL() {return aFL;}
+  public static double getBFL() {return bFL;}
 
   // == Auto Commands == //
 

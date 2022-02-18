@@ -5,6 +5,7 @@
 package frc.robot.subsystems;
 
 import static frc.robot.Constants.*;
+import static frc.robot.subsystems.SwerveSpinners.*;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 // import com.ctre.phoenix.motorcontrol.DemandType;
@@ -23,6 +24,7 @@ public class SwerveRotaters extends SubsystemBase {
 
   /** These are the variables that are created for this subsytem.. */
   private WPI_TalonFX fRRotater, fLRotater, bLRotater, bRRotater;
+  private boolean spinBack;
 
   public final double ENCODER_PULSES_PER_ROTATION = 2048;
   public final double ROTATION_POW = 25;
@@ -39,7 +41,7 @@ public class SwerveRotaters extends SubsystemBase {
     bRRotater = new WPI_TalonFX(ROTATOR_PORT_4);
 
     // Current Limiting for all motors in order to avoid Brownouts.
-    limitMotorCurrent();
+    //limitMotorCurrent();
 
     // Sensor config and encoder reset for all motors
 
@@ -63,19 +65,19 @@ public class SwerveRotaters extends SubsystemBase {
   }
 
   // This function limits the current that each motor is drawing
-  public void limitMotorCurrent() {
-    fRRotater.configStatorCurrentLimit(new StatorCurrentLimitConfiguration(true, 20, 21, 1));
-    fRRotater.configSupplyCurrentLimit(new SupplyCurrentLimitConfiguration(true, 20, 21, 1));
+  // public void limitMotorCurrent() {
+  //   fRRotater.configStatorCurrentLimit(new StatorCurrentLimitConfiguration(true, 20, 21, 1));
+  //   fRRotater.configSupplyCurrentLimit(new SupplyCurrentLimitConfiguration(true, 20, 21, 1));
 
-    fLRotater.configStatorCurrentLimit(new StatorCurrentLimitConfiguration(true, 20, 21, 1));
-    fLRotater.configSupplyCurrentLimit(new SupplyCurrentLimitConfiguration(true, 20, 21, 1));
+  //   fLRotater.configStatorCurrentLimit(new StatorCurrentLimitConfiguration(true, 20, 21, 1));
+  //   fLRotater.configSupplyCurrentLimit(new SupplyCurrentLimitConfiguration(true, 20, 21, 1));
 
-    bLRotater.configStatorCurrentLimit(new StatorCurrentLimitConfiguration(true, 20, 21, 1));
-    bLRotater.configSupplyCurrentLimit(new SupplyCurrentLimitConfiguration(true, 20, 21, 1));
+  //   bLRotater.configStatorCurrentLimit(new StatorCurrentLimitConfiguration(true, 20, 21, 1));
+  //   bLRotater.configSupplyCurrentLimit(new SupplyCurrentLimitConfiguration(true, 20, 21, 1));
 
-    bRRotater.configStatorCurrentLimit(new StatorCurrentLimitConfiguration(true, 20, 21, 1));
-    bRRotater.configSupplyCurrentLimit(new SupplyCurrentLimitConfiguration(true, 20, 21, 1));
-  }
+  //   bRRotater.configStatorCurrentLimit(new StatorCurrentLimitConfiguration(true, 20, 21, 1));
+  //   bRRotater.configSupplyCurrentLimit(new SupplyCurrentLimitConfiguration(true, 20, 21, 1));
+  // }
 
   // This function configures the motors
   public void configMotors() {
@@ -114,6 +116,12 @@ public class SwerveRotaters extends SubsystemBase {
     bRRotater.config_kD(0, kGains.kD);
     bRRotater.config_kF(0, kGains.kF);
     bRRotater.setSensorPhase(true);
+  }
+
+  public int radiansToPulses(double radians) {
+    double degrees = radians * (180/Math.PI);
+    double pulses = degrees * (2048/360.0);
+    return (int) pulses;
   }
 
   // This function converts a provided angle to the encoder pulse value for the motors.
@@ -174,8 +182,7 @@ public class SwerveRotaters extends SubsystemBase {
   }
 
   // This is the default method used in this class for swervedrive.
-  public void rotateMotors(
-      double horizontal, double vertical, double rotationHorizontal, double yaw) {
+  public void rotateMotors(double horizontal, double vertical, double rotationHorizontal, double yaw) {
     // This -1 is because the vertical axis provided by the controller is reversed.
     vertical *= -1;
     // First we determine the goal pulse of the angle relative to the front of the robot.
@@ -193,10 +200,15 @@ public class SwerveRotaters extends SubsystemBase {
       // Using the PID initialized motors, we can use the position control mode.
       // The motors' positions are set to the goal pulses, alining all motors with the wanted
       // direction.
-      fRRotater.set(ControlMode.Position, goal);
-      fLRotater.set(ControlMode.Position, goal);
-      bLRotater.set(ControlMode.Position, goal);
-      bRRotater.set(ControlMode.Position, goal);
+      // fRRotater.set(ControlMode.Position, goal);
+      // fLRotater.set(ControlMode.Position, goal);
+      // bLRotater.set(ControlMode.Position, goal);
+      // bRRotater.set(ControlMode.Position, goal);
+
+      optR(fRRotater, angle);
+      optR(fLRotater, angle);
+      optR(bLRotater, angle);
+      optR(bRRotater, angle);
     }
 
     // This if statement is for only rotation swerve.
@@ -210,134 +222,10 @@ public class SwerveRotaters extends SubsystemBase {
     }
 
     // This if statement is for translation and rotation swerve.
-    else if (isRotating && isTranslating) {
-      // This is split into 4 sections, named zones 1 through 4.
-      // The zones are all relative to the front of the robot.
-      // If we want to add rotation to an already translating swerve, we use deflection.
-      // We deflect the angle of two wheels clockwise(C) and the others counter-clockwise(CC).
-      // This deflection angle is mirrored and it is the same for all motors.
-      // Which ones are deflected clockwise(C) and counter-clockwise(CC) is different in the zones.
-
-      // In every orientation, 2 are deflected C, while 2 are deflected CC.
-      // Therefore, the directional vectors of the motors have a net direction.
-      // This net direction is the same as the original only translational direction.
-      // This is due to the 2 to 2 ratio of C and CC deflection.
-
-      // The different orientations in the zones ensure that there will always be net rotation.
-      // The deflections create this net rotation.
-      // The net rotation magnitude differs slightly depending on your original only translation
-      // dir.
-      // However, it does not differ greatly, therefore rotation + translation is very smooth.
-
-      // It is also worth noting that our of the multiple different swerve algorithms we tested
-      // this method is definitely the smoothest (by far).
-
-      // Zone 1
-      // This is quadrant starts from 45 degrees to the right of the front of the robot.
-      // It ends at 45 degrees to the left of the front of the robot.
-      if (((angle >= 0) && (45 > angle)) || ((360 > angle) && (angle >= 315))) {
-        fRRotater.set(
-            ControlMode.Position,
-            ((angle - rotationHorizontal * ROTATION_POW) % 360)
-                * (ENCODER_PULSES_PER_ROTATION * GEAR_RATIO)
-                / 360);
-        fLRotater.set(
-            ControlMode.Position,
-            ((angle - rotationHorizontal * ROTATION_POW) % 360)
-                * (ENCODER_PULSES_PER_ROTATION * GEAR_RATIO)
-                / 360);
-        bLRotater.set(
-            ControlMode.Position,
-            ((angle + rotationHorizontal * ROTATION_POW) % 360)
-                * (ENCODER_PULSES_PER_ROTATION * GEAR_RATIO)
-                / 360);
-        bRRotater.set(
-            ControlMode.Position,
-            ((angle + rotationHorizontal * ROTATION_POW) % 360)
-                * (ENCODER_PULSES_PER_ROTATION * GEAR_RATIO)
-                / 360);
-      }
-
-      // Zone 2
-      // This is quadrant starts from 45 degrees to the left of the front of the robot.
-      // It ends at 135 degrees to the left of the front of the robot.
-      else if ((angle >= 45) && (135 > angle)) {
-        bLRotater.set(
-            ControlMode.Position,
-            ((angle - rotationHorizontal * ROTATION_POW) % 360)
-                * (ENCODER_PULSES_PER_ROTATION * GEAR_RATIO)
-                / 360);
-        fLRotater.set(
-            ControlMode.Position,
-            ((angle - rotationHorizontal * ROTATION_POW) % 360)
-                * (ENCODER_PULSES_PER_ROTATION * GEAR_RATIO)
-                / 360);
-        fRRotater.set(
-            ControlMode.Position,
-            ((angle + rotationHorizontal * ROTATION_POW) % 360)
-                * (ENCODER_PULSES_PER_ROTATION * GEAR_RATIO)
-                / 360);
-        bRRotater.set(
-            ControlMode.Position,
-            ((angle + rotationHorizontal * ROTATION_POW) % 360)
-                * (ENCODER_PULSES_PER_ROTATION * GEAR_RATIO)
-                / 360);
-      }
-
-      // Zone 3
-      // This is quadrant starts from 135 degrees to the left of the front of the robot.
-      // It ends at 225 degrees to the left of the front of the robot.
-      else if ((angle >= 135) && (225 > angle)) {
-        bLRotater.set(
-            ControlMode.Position,
-            ((angle - rotationHorizontal * ROTATION_POW) % 360)
-                * (ENCODER_PULSES_PER_ROTATION * GEAR_RATIO)
-                / 360);
-        bRRotater.set(
-            ControlMode.Position,
-            ((angle - rotationHorizontal * ROTATION_POW) % 360)
-                * (ENCODER_PULSES_PER_ROTATION * GEAR_RATIO)
-                / 360);
-        fLRotater.set(
-            ControlMode.Position,
-            ((angle + rotationHorizontal * ROTATION_POW) % 360)
-                * (ENCODER_PULSES_PER_ROTATION * GEAR_RATIO)
-                / 360);
-        fRRotater.set(
-            ControlMode.Position,
-            ((angle + rotationHorizontal * ROTATION_POW) % 360)
-                * (ENCODER_PULSES_PER_ROTATION * GEAR_RATIO)
-                / 360);
-      }
-
-      // Zone 4
-      // This is quadrant starts from 225 degrees to the left of the front of the robot.
-      // It ends at 315 degrees to the left of the front of the robot(aka. 45 degrees to the right).
-      else if ((angle >= 225) && (315 > angle)) {
-        fRRotater.set(
-            ControlMode.Position,
-            ((angle - rotationHorizontal * ROTATION_POW) % 360)
-                * (ENCODER_PULSES_PER_ROTATION * GEAR_RATIO)
-                / 360);
-        bRRotater.set(
-            ControlMode.Position,
-            ((angle - rotationHorizontal * ROTATION_POW) % 360)
-                * (ENCODER_PULSES_PER_ROTATION * GEAR_RATIO)
-                / 360);
-        bLRotater.set(
-            ControlMode.Position,
-            ((angle + rotationHorizontal * ROTATION_POW) % 360)
-                * (ENCODER_PULSES_PER_ROTATION * GEAR_RATIO)
-                / 360);
-        fLRotater.set(
-            ControlMode.Position,
-            ((angle + rotationHorizontal * ROTATION_POW) % 360)
-                * (ENCODER_PULSES_PER_ROTATION * GEAR_RATIO)
-                / 360);
-      }
+    else if (isRotating && isTranslating){
+      optTR(getAFR(), getBFR(), getAFL(), getBFL(), getABR(), getBBR(), getABL(), getBBL());
     }
-  }
-
+}
   // This method sets the wheel direction of the 4 motors, with provided encoder pulse values.
   public void setWheelDirection(double fR, double fL, double bR, double bL) {
     fRRotater.set(ControlMode.Position, fR);
@@ -371,6 +259,98 @@ public class SwerveRotaters extends SubsystemBase {
     fLRotater.set(ControlMode.PercentOutput, 0);
     bRRotater.set(ControlMode.PercentOutput, 0);
     bLRotater.set(ControlMode.PercentOutput, 0);
+  }
+
+  private void optTR(double aFR, double bFR, double aFL, double bFL, double aBR, double bBR, double aBL, double bBL) {
+    /*FRONT RIGHT MOTOR*/
+      
+      //quadrant 1 Front right motor
+      if (aFR > 0 && bFR > 0) {
+        fRRotater.set(ControlMode.Position, radiansToPulses(Math.PI*0 + Math.atan(aFR/bFR)));
+      }
+      //quadrant 2 Front right motor
+      else if (aFR < 0 && bFR > 0) {
+        fRRotater.set(ControlMode.Position, radiansToPulses(Math.PI*3/2 + Math.atan(-bFR/aFR)));
+      }
+      //quadrant 3 Front right motor
+      else if (aFR < 0 && bFR < 0) {
+        fRRotater.set(ControlMode.Position, radiansToPulses(Math.PI + Math.atan(aFR/bFR)));
+      }
+      //quadrant 4 Front right motor
+      else if (aFR > 0 && bFR < 0) {
+        fRRotater.set(ControlMode.Position, radiansToPulses(Math.PI/2 + Math.atan(-bFR/aFR)));
+      }
+      
+      
+      /*FRONT LEFT MOTOR*/
+      
+      //quadrant 1 Front left motor
+      if (aFL > 0 && bFL > 0) {
+        fRRotater.set(ControlMode.Position, radiansToPulses(Math.PI*0 + Math.atan(aFL/bFL)));
+      }
+      //quadrant 2 Front left motor
+      else if (aFL < 0 && bFL > 0) {
+        fRRotater.set(ControlMode.Position, radiansToPulses(Math.PI*3/2 + Math.atan(-bFL/aFL)));
+      }
+      //quadrant 3 Front left motor
+      else if (aFL < 0 && bFL < 0) {
+        fRRotater.set(ControlMode.Position, radiansToPulses(Math.PI + Math.atan(aFL/bFL)));
+      }
+      //quadrant 4 Front left motor
+      else if (aFL > 0 && bFL < 0) {
+        fRRotater.set(ControlMode.Position, radiansToPulses(Math.PI/2 + Math.atan(-bFL/aFL)));
+      }
+      
+      
+      /*BACK RIGHT MOTOR*/
+
+      //quadrant 1 back right motor
+      if (aBR > 0 && bBR > 0) {
+        fRRotater.set(ControlMode.Position, radiansToPulses(Math.PI*0 + Math.atan(aBR/bBR)));
+      }
+      //quadrant 2 back right motor
+      else if (aBR < 0 && bBR > 0) {
+        fRRotater.set(ControlMode.Position, radiansToPulses(Math.PI*3/2 + Math.atan(-bBR/aBR)));
+      }
+      //quadrant 3 back right motor
+      else if (aBR < 0 && bBR < 0) {
+        fRRotater.set(ControlMode.Position, radiansToPulses(Math.PI + Math.atan(aBR/bBR)));
+      }
+      //quadrant 4 back right motor
+      else if (aBR > 0 && bBR < 0) {
+        fRRotater.set(ControlMode.Position, radiansToPulses(Math.PI/2 + Math.atan(-bBR/aBR)));
+      }
+      
+      
+      /*BACK LEFT MOTOR*/
+
+      //quadrant 1 back left motor
+      if (aBL > 0 && bBL > 0) {
+        fRRotater.set(ControlMode.Position, radiansToPulses(Math.PI*0 + Math.atan(aBL/bBL)));
+      }
+      //quadrant 2 back left motor
+      else if (aBL < 0 && bBL > 0) {
+        fRRotater.set(ControlMode.Position, radiansToPulses(Math.PI*3/2 + Math.atan(-bBL/aBL)));
+      }
+      //quadrant 3 back left motor
+      else if (aBL < 0 && bBL < 0) {
+        fRRotater.set(ControlMode.Position, radiansToPulses(Math.PI + Math.atan(aBL/bBL)));
+      }
+      //quadrant 4 back left motor
+      else if (aBL > 0 && bBL < 0) {
+        fRRotater.set(ControlMode.Position, radiansToPulses(Math.PI/2 + Math.atan(-bBL/aBL)));
+      }
+  }
+
+  private void optR(WPI_TalonFX motor, double angleGoal) {
+    if (Math.abs(angleGoal - motor.getSelectedSensorPosition()) > 90) { //checks if it needs to do any backwards or shortcutting stuff to begin with
+      if (angleGoal-270 > 0) {
+        motor.set(ControlMode.Position, angleToPulse(360-angleGoal));
+      }
+    }
+    else {
+      motor.set(ControlMode.Position, angleToPulse(angleGoal));
+    }
   }
 
   @Override
