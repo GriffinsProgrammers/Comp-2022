@@ -24,7 +24,7 @@ public class SwerveRotaters extends SubsystemBase {
 
   /** These are the variables that are created for this subsytem.. */
   private WPI_TalonFX fRRotater, fLRotater, bLRotater, bRRotater;
-  private boolean spinBack;
+  private static boolean reverseFR, reverseFL, reverseBR, reverseBL;
 
   public final double ENCODER_PULSES_PER_ROTATION = 2048;
   public final double ROTATION_POW = 25;
@@ -205,10 +205,10 @@ public class SwerveRotaters extends SubsystemBase {
       // bLRotater.set(ControlMode.Position, goal);
       // bRRotater.set(ControlMode.Position, goal);
 
-      optR(fRRotater, angle);
-      optR(fLRotater, angle);
-      optR(bLRotater, angle);
-      optR(bRRotater, angle);
+      reverseFR = optR(fRRotater, angle);
+      reverseFL = optR(fLRotater, angle);
+      reverseBL = optR(bLRotater, angle);
+      reverseBR = optR(bRRotater, angle);
     }
 
     // This if statement is for only rotation swerve.
@@ -342,15 +342,26 @@ public class SwerveRotaters extends SubsystemBase {
       }
   }
 
-  private void optR(WPI_TalonFX motor, double angleGoal) {
-    if (Math.abs(angleGoal - motor.getSelectedSensorPosition()) > 90) { //checks if it needs to do any backwards or shortcutting stuff to begin with
-      if (angleGoal-270 > 0) {
-        motor.set(ControlMode.Position, angleToPulse(360-angleGoal));
-      }
+  private boolean optR(WPI_TalonFX motor, double angleGoal) {
+    angleGoal %= 360;
+    double oppAngleGoal = (angleGoal+180)%360;
+    double forwardSpinRotate = 0;
+    double backwardSpinRotate = 0;
+    double shortestAngle = 0;
+
+    forwardSpinRotate = Math.abs(motor.getSelectedSensorPosition()-angleGoal) > 180 ? 360-Math.abs(motor.getSelectedSensorPosition()-angleGoal) : Math.abs(motor.getSelectedSensorPosition()-angleGoal); //Takes shortest diff. in angle
+    backwardSpinRotate = Math.abs(motor.getSelectedSensorPosition()-oppAngleGoal > 180 ? 360-Math.abs(motor.getSelectedSensorPosition()-oppAngleGoal) : Math.abs(motor.getSelectedSensorPosition()-oppAngleGoal)); //Takes shortest diff. in angle where the goal is oppoite the normal goal (this is the scenario where power would be negative)
+    shortestAngle = backwardSpinRotate < forwardSpinRotate ? backwardSpinRotate : forwardSpinRotate;
+    if (backwardSpinRotate < forwardSpinRotate) {
+      shortestAngle = backwardSpinRotate;
+      angleGoal = oppAngleGoal;
+    } else {
+      shortestAngle = forwardSpinRotate;
     }
-    else {
-      motor.set(ControlMode.Position, angleToPulse(angleGoal));
-    }
+    shortestAngle = motor.getSelectedSensorPosition() + shortestAngle == angleGoal ? Math.abs(shortestAngle) : -Math.abs(shortestAngle); //EQAULS ANGLEGOAL THEN KEEP POS OTHERWISE MAKE NEG
+
+    motor.set(ControlMode.Position, motor.getSelectedSensorPosition()+shortestAngle);
+    return backwardSpinRotate < forwardSpinRotate; // If the angle to go to backwardSpinRotate is less then the power will need to be reversed otherwise it can stay forwards
   }
 
   @Override
