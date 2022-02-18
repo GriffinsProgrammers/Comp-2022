@@ -35,10 +35,11 @@ public class RobotContainer {
   // Extra Subs
   public final Gyro GYRO = new Gyro();
   public final Pixy PIXY = new Pixy();
+  public final Vision VISION = new Vision();
 
   // Mechanism Subs
   // public final Catapult CATAPULT = new Catapult();
-  // public final Intake INTAKE = new Intake();
+   public final Intake INTAKE = new Intake();
   // public final Climber CLIMBER = new Climber();
 
   // Auto Subs Access
@@ -65,6 +66,10 @@ public class RobotContainer {
   // public Catapult getCatapult() {
   //   return CATAPULT;
   // }
+
+  public Vision getVision() {
+    return VISION;
+  }
 
   // == BUTTONS == //
 
@@ -96,6 +101,8 @@ public class RobotContainer {
   // public final Command lowerCatapultCommand = new LowerCatapultCommand(CATAPULT);
   // public final Command retractShooterCommand = new RetractShooterPistons(CATAPULT);
   // public final Command alignCatapultCommand = new AutoAlign(SWERVEROTATERS, SWERVESPINNERS, PIXY);
+  public final Command autoFindBall =
+      new AutoFindBall(VISION, SWERVEROTATERS, SWERVESPINNERS, GYRO);
 
   // // Climber Commands
   // public final Command climbSequence = new ClimbSequence(CLIMBER, SWERVEROTATERS, SWERVESPINNERS);
