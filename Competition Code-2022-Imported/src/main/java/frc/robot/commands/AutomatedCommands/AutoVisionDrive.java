@@ -56,5 +56,6 @@ public class AutoVisionDriveAndIntake extends CommandBase {
   @Override
   public boolean isFinished() {
     return vision.getArea() > 80.0;
+    }
   }
 }
