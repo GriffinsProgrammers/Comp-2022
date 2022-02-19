@@ -55,9 +55,9 @@ public class RobotContainer {
     return GYRO;
   }
 
-  // public Intake getIntake() {
-  //   return INTAKE;
-  // }
+  public Intake getIntake() {
+    return INTAKE;
+  }
 
   // public Climber getClimber() {
   //   return CLIMBER;
@@ -102,7 +102,7 @@ public class RobotContainer {
   // public final Command retractShooterCommand = new RetractShooterPistons(CATAPULT);
   // public final Command alignCatapultCommand = new AutoAlign(SWERVEROTATERS, SWERVESPINNERS, PIXY);
   public final Command autoFindBall =
-      new AutoFindBall(VISION, SWERVEROTATERS, SWERVESPINNERS, GYRO);
+      new AutoFindBall(VISION, SWERVEROTATERS, SWERVESPINNERS, GYRO, INTAKE);
 
   // // Climber Commands
   // public final Command climbSequence = new ClimbSequence(CLIMBER, SWERVEROTATERS, SWERVESPINNERS);
