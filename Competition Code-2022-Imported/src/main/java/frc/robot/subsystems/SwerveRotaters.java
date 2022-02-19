@@ -142,6 +142,10 @@ public class SwerveRotaters extends SubsystemBase {
     return angle(horizontal, vertical, yaw) * (ENCODER_PULSES_PER_ROTATION * GEAR_RATIO) / 360;
   }
 
+  public double angleToPulses(double angle) {
+    return angle * (ENCODER_PULSES_PER_ROTATION * GEAR_RATIO) / 360;
+  }
+
   // This function converts a provided angle to the angle relative to the front of the robot.
   private double angle(double angle, double yaw) {
     // This uses the yaw of the robot in order to calculate the angle we want to turn relative to
@@ -360,9 +364,14 @@ public class SwerveRotaters extends SubsystemBase {
     }
     shortestAngle = motor.getSelectedSensorPosition() + shortestAngle == angleGoal ? Math.abs(shortestAngle) : -Math.abs(shortestAngle); //EQAULS ANGLEGOAL THEN KEEP POS OTHERWISE MAKE NEG
 
-    motor.set(ControlMode.Position, motor.getSelectedSensorPosition()+shortestAngle);
+    motor.set(ControlMode.Position, angleToPulses(motor.getSelectedSensorPosition()+shortestAngle));
     return backwardSpinRotate < forwardSpinRotate; // If the angle to go to backwardSpinRotate is less then the power will need to be reversed otherwise it can stay forwards
   }
+
+  public static boolean getReverseFR() {return reverseFR;}
+  public static boolean getReverseFL() {return reverseFL;}
+  public static boolean getReverseBR() {return reverseBR;}
+  public static boolean getReverseBL() {return reverseBL;}
 
   @Override
   public void periodic() {

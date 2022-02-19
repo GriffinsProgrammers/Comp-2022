@@ -19,6 +19,7 @@ import edu.wpi.first.wpilibj.motorcontrol.*;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import static frc.robot.Constants.*;
+import static frc.robot.subsystems.SwerveRotaters.*;
 
 public class SwerveSpinners extends SubsystemBase {
 
@@ -132,10 +133,15 @@ public class SwerveSpinners extends SubsystemBase {
         (Math.sqrt((Math.pow(vertical, 2) + Math.pow(horizontal, 2))) >= CONTROLLER_SENSITIVITY);
 
     if (!isRotating && isTranslating) {
-      frontRightSpeed = r;
-      backLeftSpeed = r;
-      backRightSpeed = r;
-      frontLeftSpeed = r;
+      // frontRightSpeed = r;
+      // backLeftSpeed = r;
+      // backRightSpeed = r;
+      // frontLeftSpeed = r;
+
+      frontRightSpeed = getReverseFR() ? -r : r;
+      backLeftSpeed = getReverseBL() ? -r : r;
+      backRightSpeed = getReverseBR() ? -r : r;
+      frontLeftSpeed = getReverseFL() ? -r : r;
 
     } else if (isRotating && !isTranslating) {
       backRightSpeed = -rotationHorizontal * ROTATION_COEFFICIENT;
