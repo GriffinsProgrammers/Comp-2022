@@ -9,15 +9,18 @@ public class AutoFindBall extends SequentialCommandGroup {
   private SwerveRotaters rotaters;
   private SwerveSpinners spinners;
   private Gyro gyro;
+  private Intake intake;
 
-  public AutoFindBall(Vision vision, SwerveRotaters rotaters, SwerveSpinners spinners, Gyro gyro) {
+  public AutoFindBall(
+      Vision vision, SwerveRotaters rotaters, SwerveSpinners spinners, Gyro gyro, Intake intake) {
     this.vision = vision;
     this.rotaters = rotaters;
     this.spinners = spinners;
     this.gyro = gyro;
+    this.intake = intake;
 
     addCommands(
         new AutoVisionRotate(vision, rotaters, spinners, gyro),
-        new AutoVisionDrive(vision, rotaters, spinners, gyro));
+        new AutoVisionDriveAndIntake(vision, rotaters, spinners, gyro, intake));
   }
 }

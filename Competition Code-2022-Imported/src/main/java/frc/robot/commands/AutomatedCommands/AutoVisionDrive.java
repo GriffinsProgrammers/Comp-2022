@@ -4,15 +4,16 @@ import frc.robot.subsystems.Vision;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.*;
 
-public class AutoVisionDrive extends CommandBase {
+public class AutoVisionDriveAndIntake extends CommandBase {
+  private Intake intake;
   private Vision vision;
   private SwerveRotaters rotaters;
   private SwerveSpinners spinners;
   private Gyro gyro;
   private double fR, fL, bR, bL;
 
-  public AutoVisionDrive(
-      Vision vision, SwerveRotaters rotaters, SwerveSpinners spinners, Gyro gyro) {
+  public AutoVisionDriveAndIntake(
+      Vision vision, SwerveRotaters rotaters, SwerveSpinners spinners, Gyro gyro, Intake intake) {
     this.vision = vision;
     this.rotaters = rotaters;
     this.spinners = spinners;
@@ -21,6 +22,7 @@ public class AutoVisionDrive extends CommandBase {
     this.fL = 0;
     this.bR = 0;
     this.bL = 0;
+    this.intake = intake;
     addRequirements(rotaters, spinners);
   }
 
@@ -28,6 +30,8 @@ public class AutoVisionDrive extends CommandBase {
   @Override
   public void initialize() {
     rotaters.setWheelDirection(fR, fL, bR, bL);
+    intake.pistonForward();
+    intake.intake();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -44,6 +48,7 @@ public class AutoVisionDrive extends CommandBase {
   public void end(boolean interrupted) {
     rotaters.stop();
     spinners.stop();
+    intake.off();
     System.out.println("Finished");
   }
 
