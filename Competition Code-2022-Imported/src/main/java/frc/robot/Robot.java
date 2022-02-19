@@ -75,7 +75,7 @@ public class Robot extends TimedRobot {
         rCon.getGyro(),
         rCon.getCatapult(),
         rCon.getIntake());*/
-        new AutoFindBall(rCon.getVision(), rCon.getRotaters(), rCon.getSpinners(), rCon.getGyro());
+        new AutoFindBall(rCon.getVision(), rCon.getRotaters(), rCon.getSpinners(), rCon.getGyro(), rCon.getIntake());
     // schedule the autonomous command (example)
     if (m_autonomousCommand != null) {
       m_autonomousCommand.schedule();
