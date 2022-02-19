@@ -23,8 +23,8 @@ public final class Constants {
 
   // Intake Ports
   public static final int INTAKE_MOTOR_PORT = 10;
-  public static final int INTAKE_PISTON_PORT_1 = 4; 
-  public static final int INTAKE_PISTON_PORT_2 = 5;
+  public static final int INTAKE_PISTON_PORT_1 = 5; 
+  public static final int INTAKE_PISTON_PORT_2 = 4;
 
   // Climber Ports
   public static final int TELESCOPE_PORT_1 = 12;
