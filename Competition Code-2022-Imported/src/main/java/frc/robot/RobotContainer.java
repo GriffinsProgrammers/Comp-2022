@@ -70,8 +70,8 @@ public class RobotContainer {
   // == BUTTONS == //
 
   // Intake
-  public final JoystickButton intakeButton = new JoystickButton(shopper, INTAKE_BUTTON);
-  public final JoystickButton raiseIntakeButton = new JoystickButton(operator, RAISE_INTAKE_BUTTON);
+  // public final JoystickButton intakeButton = new JoystickButton(shopper, INTAKE_BUTTON);
+  // public final JoystickButton raiseIntakeButton = new JoystickButton(operator, RAISE_INTAKE_BUTTON);
 /*
   // Catapult
   public final JoystickButton lowerCatapultButton =
@@ -94,8 +94,8 @@ public class RobotContainer {
   // == COMMANDS == //
 
   // Intake Commands
-  public final Command intakeCommand = new IntakeCommand(INTAKE);
-  public final Command raiseIntakeCommand = new RaiseIntakeCommand(INTAKE);
+  // public final Command intakeCommand = new IntakeCommand(INTAKE);
+  // public final Command raiseIntakeCommand = new RaiseIntakeCommand(INTAKE);
 /*
   // Catapult Commands
   public final Command releaseCatapultCommand = new ReleaseCatapultCommand(CATAPULT, INTAKE);
@@ -158,8 +158,8 @@ public class RobotContainer {
     alignCatapultButton.whenHeld(alignCatapultCommand);
     */
     // Intake
-    intakeButton.whileHeld(intakeCommand);
-    raiseIntakeButton.whenPressed(raiseIntakeCommand);
+    // intakeButton.whileHeld(intakeCommand);
+    // raiseIntakeButton.whenPressed(raiseIntakeCommand);
     
     // Climber
     //climbButton.whenHeld(climbSequence);
