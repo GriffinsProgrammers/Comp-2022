@@ -27,10 +27,10 @@ public class PowerTelescopingCommand extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    if (INTAKE.getPistonState()) {
+    // if (INTAKE.getPistonState()) {
       // This means that 1 second after the command is initialized, the command will end.
       CLIMBER.supplyTelescoping(power);
-    }
+    // }
   }
 
   // Called every time the scheduler runs while the command is scheduled.

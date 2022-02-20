@@ -21,9 +21,6 @@ public class Intake extends SubsystemBase {
     intakePiston1 =
         new DoubleSolenoid(
             PneumaticsModuleType.CTREPCM, INTAKE_PISTON_PORT_1, INTAKE_PISTON_PORT_2);
-    intakePiston2 =
-        new DoubleSolenoid(
-            PneumaticsModuleType.CTREPCM, INTAKE_PISTON_PORT_3, INTAKE_PISTON_PORT_4);
   }
   /**
    * Sets the speed of the motor
@@ -39,13 +36,13 @@ public class Intake extends SubsystemBase {
   // This method pushes the Intake piston forward.
   public void pistonForward() {
     intakePiston1.set(DoubleSolenoid.Value.kForward);
-    intakePiston2.set(DoubleSolenoid.Value.kForward);
+    //intakePiston2.set(DoubleSolenoid.Value.kForward);
   }
 
   // This method pulls the Intake piston back.
   public void pistonReverse() {
     intakePiston1.set(DoubleSolenoid.Value.kReverse);
-    intakePiston2.set(DoubleSolenoid.Value.kReverse);
+    // intakePiston2.set(DoubleSolenoid.Value.kReverse);
   }
 
   // This method checks if the pistons are engaged

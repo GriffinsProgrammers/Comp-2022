@@ -105,8 +105,8 @@ public class RobotContainer {
 */
   // Climber Commands
   //public final Command climbSequence = new ClimbSequence(CLIMBER/*, SWERVEROTATERS, SWERVESPINNERS*/);
-  public final Command extendCommand = new PowerTelescopingCommand(CLIMBER, INTAKE, -MIDPOWER);
-  public final Command retractCommand = new PowerTelescopingCommand(CLIMBER, INTAKE, MIDPOWER);
+  public final Command extendCommand = new PowerTelescopingCommand(CLIMBER, INTAKE, -1);
+  public final Command retractCommand = new PowerTelescopingCommand(CLIMBER, INTAKE, 1);
   //public final Command stayCommand = new PowerTelescopingCommand(CLIMBER, 0);
 
   // This constructs the robot container class.
