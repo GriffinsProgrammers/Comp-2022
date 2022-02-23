@@ -40,7 +40,6 @@ public class Climber extends SubsystemBase {
     telescope2.set(ControlMode.PercentOutput, power);
   }
 
-
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
