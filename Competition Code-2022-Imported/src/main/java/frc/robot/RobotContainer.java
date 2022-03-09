@@ -64,14 +64,6 @@ public class RobotContainer {
       new JoystickButton(operator, LOWERCATAPULT_BUTTON);
   public final JoystickButton releaseCatapultButton =
       new JoystickButton(operator, RELEASECATAPULT_BUTTON);
-  // public final JoystickButton alignCatapultButton =
-  // new JoystickButton(operator, ALIGNCATAPULT_BUTTON);
-
-  // Climber
-  public final JoystickButton climbButton = new JoystickButton(operator, CLIMB_BUTTON);
-  public final JoystickButton extend = new JoystickButton(operator, BUTTON_A);
-  public final JoystickButton retract = new JoystickButton(operator, BUTTON_X);
-  public final JoystickButton stay = new JoystickButton(operator, BUTTON_Y);
 
   // == COMMANDS == //
 
@@ -82,17 +74,9 @@ public class RobotContainer {
   // Catapult Commands
   public final Command releaseCatapultCommand = new ReleaseCatapultCommand(CATAPULT);
   public final Command lowerCatapultCommand = new LowerCatapultCommand(CATAPULT);
-  // public final Command alignCatapultCommand = new AutoAlign(SWERVEROTATERS,
-  // SWERVESPINNERS,
-  // PIXY);
-  // Climber Commands
 
-  // public final Command climbSequence = new ClimbSequence(CLIMBER/*,
-  // SWERVEROTATERS,
-  // SWERVESPINNERS);
   public final Command extendCommand = new PowerTelescopingCommand(CLIMBER, INTAKE, -1);
   public final Command retractCommand = new PowerTelescopingCommand(CLIMBER, INTAKE, 1);
-  // public final Command stayCommand = new PowerTelescopingCommand(CLIMBER, 0);
 
   // This constructs the robot container class.
   public RobotContainer() {
@@ -125,15 +109,13 @@ public class RobotContainer {
         new RunCommand(
             () ->
                 CLIMBER.supplyTelescoping(
-                    operator.getRawAxis(TRANSLATIONAL_VERTICAL_AXIS),
-                    operator.getRawAxis(ROTATIONAL_VERTICAL_AXIS))));
+                    operator.getRawAxis(OPERATOR_L3),
+                    operator.getRawAxis(OPERATOR_R3))));
 
     INTAKE.setDefaultCommand(new RunCommand(() -> INTAKE.intake(), INTAKE));
     // Catapult
     lowerCatapultButton.whenHeld(lowerCatapultCommand);
     releaseCatapultButton.whenPressed(releaseCatapultCommand);
-    // retractCatapultButton.whenPressed(retractShooterCommand);
-    // alignCatapultButton.whenHeld(alignCatapultCommand);
 
     // Intake
     intakeButton.whileHeld(intakeCommand);

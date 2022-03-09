@@ -126,7 +126,8 @@ public final class Constants {
   // public static final int ALIGNCATAPULT_BUTTON = BUTTON_A;
 
   // Climber
-  public static final int CLIMB_BUTTON = BUTTON_Y;
+  public static final int OPERATOR_L3 = 1;
+  public static final int OPERATOR_R3 = 4;
 
   // === EXTRAS === //
 
