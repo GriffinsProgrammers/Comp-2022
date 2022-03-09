@@ -6,17 +6,15 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Catapult;
-import frc.robot.subsystems.Intake;
 import static frc.robot.Constants.*;
 
 public class ReleaseCatapultCommand extends CommandBase {
   // Creates release catapult for shooting command
 
   private Catapult CATAPULT;
-  private Intake INTAKE;
   private double startTime;
 
-  public ReleaseCatapultCommand(Catapult catapult, Intake intake) {
+  public ReleaseCatapultCommand(Catapult catapult) {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(catapult);
     this.CATAPULT = catapult;

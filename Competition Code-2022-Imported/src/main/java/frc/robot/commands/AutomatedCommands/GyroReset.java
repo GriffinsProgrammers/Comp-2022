@@ -4,43 +4,39 @@
 
 package frc.robot.commands.AutomatedCommands;
 
-import edu.wpi.first.math.kinematics.ChassisSpeeds;
+// import edu.wpi.first.wpilibj.interfaces.Gyro;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.Drive;
 
-public class MoveForward extends CommandBase {
-  private long startTime;
-  private final Drive DRIVE;
-  private final Double SPEED;
-  private final Double DISTANCE;
+import frc.robot.subsystems.Gyro;
 
-  /** Creates a new MoveForward. */
-  public MoveForward(Drive drive, Double distance, Double speed) {
-    this.DRIVE = drive;
-    this.DISTANCE = distance;
-    this.SPEED = speed;
+public class GyroReset extends CommandBase {
+
+  private Gyro gyro;
+
+  /** Creates a new GyroReset. */
+  public GyroReset(Gyro gyro) {
     // Use addRequirements() here to declare subsystem dependencies.
+    addRequirements(gyro);
+    this.gyro = gyro;
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    DRIVE.drive(new ChassisSpeeds(0, SPEED, 0));
+    gyro.resetValues();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {
-  }
+  public void execute() {}
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {
-  }
+  public void end(boolean interrupted) {}
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return (System.currentTimeMillis() - DISTANCE / SPEED * 1000 > startTime);
+    return false;
   }
 }

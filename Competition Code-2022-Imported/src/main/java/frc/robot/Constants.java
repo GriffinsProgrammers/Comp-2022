@@ -73,8 +73,8 @@ public final class Constants {
 
   // Intake Ports
   public static final int INTAKE_MOTOR_PORT = 10;
-  public static final int INTAKE_PISTON_PORT_1 = 5;
-  public static final int INTAKE_PISTON_PORT_2 = 4;
+  public static final int INTAKE_PISTON_PORT_1 = 4;
+  public static final int INTAKE_PISTON_PORT_2 = 5;
 
   // Climber Ports
   public static final int TELESCOPE_PORT_1 = 12;
@@ -84,8 +84,8 @@ public final class Constants {
 
   // Catapult Ports
   public static final int SHOOTER_MOTOR_PORT_1 = 11;
-  public static final int SHOOTER_PISTON_PORT_1 = 6;
-  public static final int SHOOTER_PISTON_PORT_2 = 7;
+  public static final int SHOOTER_PISTON_PORT_1 = 7;
+  public static final int SHOOTER_PISTON_PORT_2 = 6;
 
   // Gyro Port
 
@@ -113,6 +113,7 @@ public final class Constants {
   public static final int TRANSLATIONAL_HORIZONTAL_AXIS = 0;
   public static final int TRANSLATIONAL_VERTICAL_AXIS = 1;
   public static final int ROTATIONAL_HORIZONTAL_AXIS = 4;
+  public static final int ROTATIONAL_VERTICAL_AXIS = 5;
 
   // Intake
   public static final int INTAKE_BUTTON = RIGHT_BUMPER;

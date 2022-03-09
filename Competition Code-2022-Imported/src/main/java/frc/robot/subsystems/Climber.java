@@ -27,8 +27,16 @@ public class Climber extends SubsystemBase {
   }
 
   // This method supplies a certain output to the telescoping motors.
-  public void supplyTelescoping(double power) {
+  public void supplyTelescoping(double left, double right) {
+    telescope1.set(ControlMode.PercentOutput, -left);
+    telescope2.set(ControlMode.PercentOutput, right);
+  }
+
+  public void leftMotor(double power) {
     telescope1.set(ControlMode.PercentOutput, -power);
+  }
+
+  public void rightMotor(double power) {
     telescope2.set(ControlMode.PercentOutput, power);
   }
 

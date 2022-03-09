@@ -6,6 +6,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 public class IntakeAuto extends CommandBase {
   boolean run;
   Intake intake;
+  private long time;
 
   public IntakeAuto(Intake intake, boolean run) {
     this.intake = intake;
@@ -15,6 +16,7 @@ public class IntakeAuto extends CommandBase {
   }
 
   public void initialize() {
+    time = System.currentTimeMillis();
     if (run) {
       intake.pistonForward();
       // intake.intake();
@@ -31,6 +33,6 @@ public class IntakeAuto extends CommandBase {
   }
 
   public boolean isFinished() {
-    return ((intake.getPistonState() == true));
+    return (System.currentTimeMillis() - time > 5000);
   }
 }
