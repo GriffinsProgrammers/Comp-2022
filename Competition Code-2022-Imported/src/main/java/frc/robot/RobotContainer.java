@@ -60,8 +60,10 @@ public class RobotContainer {
 
   // Catapult
 
-  public final JoystickButton lowerCatapultButton = new JoystickButton(operator, LOWERCATAPULT_BUTTON);
-  public final JoystickButton releaseCatapultButton = new JoystickButton(operator, RELEASECATAPULT_BUTTON);
+  public final JoystickButton lowerCatapultButton =
+      new JoystickButton(operator, LOWERCATAPULT_BUTTON);
+  public final JoystickButton releaseCatapultButton =
+      new JoystickButton(operator, RELEASECATAPULT_BUTTON);
   // public final JoystickButton alignCatapultButton =
   // new JoystickButton(operator, ALIGNCATAPULT_BUTTON);
 
@@ -98,31 +100,33 @@ public class RobotContainer {
     m_drivetrainSubsystem.setDefaultCommand(
         new DriveCommand(
             m_drivetrainSubsystem,
-            () -> -modifyAxis(shopper.getRawAxis(TRANSLATIONAL_VERTICAL_AXIS))
-                * Drive.MAX_VELOCITY_METERS_PER_SECOND,
-            () -> -modifyAxis(shopper.getRawAxis(TRANSLATIONAL_HORIZONTAL_AXIS))
-                * Drive.MAX_VELOCITY_METERS_PER_SECOND,
-            () -> -modifyAxis(shopper.getRawAxis(ROTATIONAL_HORIZONTAL_AXIS))
-                * Drive.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND));
+            () ->
+                -modifyAxis(shopper.getRawAxis(TRANSLATIONAL_VERTICAL_AXIS))
+                    * Drive.MAX_VELOCITY_METERS_PER_SECOND,
+            () ->
+                -modifyAxis(shopper.getRawAxis(TRANSLATIONAL_HORIZONTAL_AXIS))
+                    * Drive.MAX_VELOCITY_METERS_PER_SECOND,
+            () ->
+                -modifyAxis(shopper.getRawAxis(ROTATIONAL_HORIZONTAL_AXIS))
+                    * Drive.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND));
 
     configureButtonBindings();
   }
 
   /**
-   * Use this method to define your button->command mappings. Buttons can be
-   * created by
+   * Use this method to define your button->command mappings. Buttons can be created by
    * instantiating a {@link GenericHID} or one of its subclasses ({@link
-   * edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then passing
-   * it to a {@link
+   * edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then passing it to a {@link
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
 
     CLIMBER.setDefaultCommand(
         new RunCommand(
-            () -> CLIMBER.supplyTelescoping(
-                operator.getRawAxis(TRANSLATIONAL_VERTICAL_AXIS),
-                operator.getRawAxis(ROTATIONAL_VERTICAL_AXIS))));
+            () ->
+                CLIMBER.supplyTelescoping(
+                    operator.getRawAxis(TRANSLATIONAL_VERTICAL_AXIS),
+                    operator.getRawAxis(ROTATIONAL_VERTICAL_AXIS))));
 
     INTAKE.setDefaultCommand(new RunCommand(() -> INTAKE.intake(), INTAKE));
     // Catapult
