@@ -109,8 +109,7 @@ public class RobotContainer {
         new RunCommand(
             () ->
                 CLIMBER.supplyTelescoping(
-                    operator.getRawAxis(OPERATOR_L3),
-                    operator.getRawAxis(OPERATOR_R3))));
+                    operator.getRawAxis(OPERATOR_L3), operator.getRawAxis(OPERATOR_R3))));
 
     INTAKE.setDefaultCommand(new RunCommand(() -> INTAKE.intake(), INTAKE));
     // Catapult
